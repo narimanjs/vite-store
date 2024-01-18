@@ -7,8 +7,6 @@ const Button = ({
   appearence = 'small',
   ...props
 }: ButtonProps) => {
-  console.log('Button');
-
   return (
     <button
       className={cn(styles['button'], styles['accent'], className, {

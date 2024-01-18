@@ -1,0 +1,59 @@
+.layout {
+  display: flex;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-right: 1px solid var(--separator-color);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+.content {
+  padding: 40px 60px;
+  width: 100%;
+}
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--text-color);
+}
+.link:hover {
+  color: var(--primary-color);
+}
+.active {
+  color: var(--primary-color);
+}
+.exit {
+  margin-top: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.user {
+  margin-bottom: 46px;
+}
+.avatar {
+  margin-bottom: 20px;
+}
+.name {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--text-color);
+}
+.email {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #9ea1b1;
+}
