@@ -2,3 +2,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+.loader-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader {
+  position: absolute;
+  top: 100px;
+  right: 42px;
+}
