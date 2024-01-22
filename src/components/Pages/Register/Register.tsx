@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../Button/Button';
 import Heading from '../../Headling/Heading';
 import Input from '../../Input/Input';
-import styles from './Login.module.css';
+import styles from './Register.module.css';
 import { FormEvent, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
