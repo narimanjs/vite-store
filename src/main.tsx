@@ -1,3 +1,5 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 /* eslint-disable react-refresh/only-export-components */
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,6 +14,8 @@ import { PREFIX } from './helpers/API.ts';
 import AuthLayout from './layout/Auth/AuthLayout.tsx';
 import Login from './components/Pages/Login/Login.tsx';
 import Register from './components/Pages/Register/Register.tsx';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.ts';
 
 const Menu = lazy(() => import('./components/Pages/Menu/Menu.tsx'));
 const Product = lazy(() => import('./components/Pages/Product/Product.tsx'));
@@ -69,6 +73,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

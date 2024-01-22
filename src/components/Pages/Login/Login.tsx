@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../Button/Button';
 import Heading from '../../Headling/Heading';
 import Input from '../../Input/Input';
 import styles from './Login.module.css';
-import { FormEvent, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { PREFIX } from '../../../helpers/API';
-import { LoginResponse } from '../../../interfaces/auth.interface';
+import { FormEvent, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, userActions } from '../../../redux/user.slice';
+import { RootState } from '../../../redux/store';
 
 export type LoginForm = {
   email: {
@@ -18,41 +21,38 @@ export type LoginForm = {
     value: string;
   };
 };
-function Login() {
-  const [error, setError] = useState<string | null>();
+export function Login() {
   const navigate = useNavigate();
-  toast.info(error, {
+  const dispatch = useDispatch();
+  const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user);
+
+  useEffect(() => {
+    if (jwt) {
+      navigate('/');
+    }
+  }, [jwt, navigate]);
+
+  toast.info(loginErrorMessage, {
     position: 'bottom-center',
   });
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null);
+    dispatch(userActions.clearLoginError());
     const target = e.target as typeof e.target & LoginForm;
     const { email, password } = target;
     await sendLogin(email.value, password.value);
   };
-  const sendLogin = async (email: string, password: string) => {
-    try {
-      const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
-        email,
-        password,
-      });
-      console.log(data);
-      localStorage.setItem('jwt', data.access_token);
-      navigate('/');
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        console.log(e.response?.data.message);
 
-        setError(e.response?.data.message);
-      }
-    }
+  const sendLogin = async (email: string, password: string) => {
+    dispatch(login({ email, password }));
   };
 
   return (
     <div className={styles['login']}>
       <Heading>Вход</Heading>
-      {error && <div className={styles['error']}>{error}</div>}
+      {loginErrorMessage && (
+        <div className={styles['error']}>{loginErrorMessage}</div>
+      )}
       <form
         className={styles['form']}
         onSubmit={submit}

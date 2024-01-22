@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import styles from './Button.module.css';
 import { ButtonProps } from './Button.props';
 import cn from 'classnames';
