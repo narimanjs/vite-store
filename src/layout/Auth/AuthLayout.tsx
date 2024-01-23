@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { Outlet } from 'react-router-dom';
 import styles from './AuthLayout.module.css';
 function AuthLayout() {
