@@ -10,7 +10,7 @@ import { FormEvent, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, userActions } from '../../../redux/user.slice';
+import { login, userActions } from '../../../redux/slices/user.slice';
 import { RootState } from '../../../redux/store';
 
 export type LoginForm = {

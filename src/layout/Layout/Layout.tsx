@@ -8,12 +8,13 @@ import Avatar from 'react-avatar';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { getProfile, userActions } from '../../redux/user.slice';
+import { getProfile, userActions } from '../../redux/slices/user.slice';
 import { useEffect } from 'react';
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((s: RootState) => s.user.profile);
+  const items = useSelector((s: RootState) => s.cart.items);
 
   useEffect(() => {
     dispatch(getProfile());
@@ -52,7 +53,10 @@ const Layout = () => {
             }
           >
             <BsCart />
-            Cart
+            Корзина
+            <span className={styles['cart-count']}>
+              {items.reduce((acc, item) => (acc += item.count), 0)}
+            </span>
           </NavLink>
         </div>
         <div className={styles['exit']}>

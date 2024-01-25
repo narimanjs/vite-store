@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loadState } from './storage';
+import { loadState } from '../storage';
 import axios, { AxiosError } from 'axios';
-import { LoginResponse } from '../interfaces/auth.interface';
-import { PREFIX } from '../helpers/API';
-import { Profile } from '../interfaces/user.interface';
-import { RootState } from './store';
+import { LoginResponse } from '../../interfaces/auth.interface';
+import { PREFIX } from '../../helpers/API';
+import { Profile } from '../../interfaces/user.interface';
+import { RootState } from '../store';
 
 export const JWT_PERSISTENT_STATE = 'userData';
 
@@ -39,6 +39,26 @@ export const login = createAsyncThunk(
     }
   }
 );
+export const register = createAsyncThunk(
+  'user/register',
+  async (params: { email: string; password: string; name: string }) => {
+    try {
+      const { data } = await axios.post<LoginResponse>(
+        `${PREFIX}/auth/register`,
+        {
+          email: params.email,
+          name: params.name,
+          password: params.password,
+        }
+      );
+      return data;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        throw new Error(e.response?.data.message);
+      }
+    }
+  }
+);
 export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
   'user/getProfile',
   async (_, thunkApi) => {
@@ -62,6 +82,9 @@ export const userSlice = createSlice({
     clearLoginError: state => {
       state.loginErrorMessage = undefined;
     },
+    clearRegisteError: state => {
+      state.registerErrorMessage = undefined;
+    },
   },
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -75,6 +98,15 @@ export const userSlice = createSlice({
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.profile = action.payload;
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      if (!action.payload) {
+        return;
+      }
+      state.jwt = action.payload.access_token;
+    });
+    builder.addCase(register.rejected, (state, action) => {
+      state.registerErrorMessage = action.error.message;
     });
   },
 });

@@ -1,0 +1,15 @@
+.heading {
+  margin-bottom: 42px;
+}
+.currency {
+  color: var(--primary-color);
+}
+/* .parent-container {
+  display: flex;
+  height: 100%;
+} */
+.preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

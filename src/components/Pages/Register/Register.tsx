@@ -10,7 +10,7 @@ import { FormEvent, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, userActions } from '../../../redux/user.slice';
+import { register, userActions } from '../../../redux/slices/user.slice';
 import { RootState } from '../../../redux/store';
 
 export type RegisterForm = {
@@ -20,11 +20,14 @@ export type RegisterForm = {
   password: {
     value: string;
   };
+  name?: {
+    value: string;
+  };
 };
 export function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user);
+  const { jwt, registerErrorMessage } = useSelector((s: RootState) => s.user);
 
   useEffect(() => {
     if (jwt) {
@@ -32,26 +35,28 @@ export function Register() {
     }
   }, [jwt, navigate]);
 
-  toast.info(loginErrorMessage, {
+  toast.info(registerErrorMessage, {
     position: 'bottom-center',
   });
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(userActions.clearLoginError());
+    dispatch(userActions.clearRegisteError());
     const target = e.target as typeof e.target & RegisterForm;
-    const { email, password } = target;
-    await sendLogin(email.value, password.value);
-  };
-
-  const sendLogin = async (email: string, password: string) => {
-    dispatch(login({ email, password }));
+    const { email, password, name } = target;
+    dispatch(
+      register({
+        email: email.value,
+        password: password.value,
+        name: name.value,
+      })
+    );
   };
 
   return (
     <div className={styles['login']}>
-      <Heading>Вход</Heading>
-      {loginErrorMessage && (
-        <div className={styles['error']}>{loginErrorMessage}</div>
+      <Heading>Регистрация</Heading>
+      {registerErrorMessage && (
+        <div className={styles['error']}>{registerErrorMessage}</div>
       )}
       <form
         className={styles['form']}
@@ -78,7 +83,7 @@ export function Register() {
           <label htmlFor='name'>Ваше имя</label>
           <Input
             id='name'
-            placeholder='пароль'
+            placeholder='Имя'
             name='Имя'
           />
         </div>
