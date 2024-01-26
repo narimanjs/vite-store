@@ -56,14 +56,16 @@
 }
 .add-to-card {
   position: absolute;
-  top: 15px;
+  top: 150px;
   right: 15px;
   background: var(--primary-color);
-  border-radius: 50px;
-  width: 34px;
-  height: 34px;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
   border: none;
   cursor: pointer;
+  color: var(--white);
+  font-size: 12px;
 }
 .add-to-card:hover {
   background: var(--primary-hover-color);

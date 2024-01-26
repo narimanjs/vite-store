@@ -1,10 +1,10 @@
-import { BsCartPlus } from 'react-icons/bs';
+import { BiCartAdd } from 'react-icons/bi';
 import { FcRating } from 'react-icons/fc';
 import { FaTenge } from 'react-icons/fa';
 
 import styles from './ProductCard.module.css';
 import { ProductCardProps } from './ProductCard.props';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
@@ -12,12 +12,14 @@ import { cartActions } from '../../redux/slices/cart.slice';
 
 function ProductCard(props: ProductCardProps) {
   const dispatch = useDispatch<AppDispatch>();
+
   const add = (e: MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     dispatch(cartActions.add(props.id));
   };
   return (
-    <Link
+    <NavLink
       to={`/product/${props.id}`}
       className={styles['link']}
     >
@@ -25,17 +27,14 @@ function ProductCard(props: ProductCardProps) {
         <div
           className={styles['head']}
           style={{ backgroundImage: `url('${props.image}')` }}
-          // style={{ backgroundColor: 'red' }}
         >
           <div className={styles['price']}>
             {props.price} <FaTenge className={styles['currency']} />
           </div>
-          <button
+          <BiCartAdd
             className={styles['add-to-card']}
             onClick={add}
-          >
-            <BsCartPlus className={styles['add-to-card-icon']} />
-          </button>
+          />
           <div className={styles['rating']}>
             {props.rating} <FcRating />
           </div>
@@ -45,7 +44,7 @@ function ProductCard(props: ProductCardProps) {
           <div className={styles['description']}>{props.description}</div>
         </div>
       </div>
-    </Link>
+    </NavLink>
   );
 }
 

@@ -1,19 +1,34 @@
-import { useSelector } from 'react-redux';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../../Headling/Heading';
 import styles from './Cart.module.css';
-import { RootState } from '../../../redux/store';
-import CardItem from '../../CartItem/CartItem';
+import { AppDispatch, RootState } from '../../../redux/store';
+import CartItem from '../../CartItem/CartItem';
 import { useEffect, useState } from 'react';
 import { Product } from '../../../interfaces/product.interface';
 import axios from 'axios';
 import { PREFIX } from '../../../helpers/API';
 import { ThreeDots } from 'react-loader-spinner';
+import Button from '../../Button/Button';
+import { useNavigate } from 'react-router-dom';
+import { cartActions } from '../../../redux/slices/cart.slice';
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Установите изначальное значение в true
   const items = useSelector((s: RootState) => s.cart.items);
-
+  const jwt = useSelector((s: RootState) => s.user.jwt);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const total = items
+    .map(i => {
+      const product = cartProducts.find(p => p.id === i.id);
+      if (!product) {
+        return 0;
+      }
+      return i.count * product.price;
+    })
+    .reduce((acc, i) => (acc += i), 0);
   const getItem = async (id: number) => {
     const { data } = await axios.get(`${PREFIX}/products/${id}`);
     return data;
@@ -26,15 +41,29 @@ const Cart = () => {
     } catch (error) {
       console.error('Ошибка при загрузке данных:', error);
     } finally {
-      // Вызывайте setIsLoading(false) как завершающую строку, чтобы гарантировать, что она будет вызвана
       setIsLoading(false);
     }
   };
 
+  const checkout = async () => {
+    await axios.post(
+      `${PREFIX}/order`,
+      {
+        products: items,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    dispatch(cartActions.clean());
+    navigate('/success');
+  };
   useEffect(() => {
     setIsLoading(true); // Устанавливаем isLoading в true перед началом загрузки
     loadAllItems();
-  }, [items]);
+  }, []);
 
   return (
     <>
@@ -58,14 +87,39 @@ const Cart = () => {
               return null;
             }
             return (
-              <CardItem
-                key={product.id}
-                count={i.count}
-                {...product}
-              />
+              <>
+                <hr className={styles['hr']} />
+                <CartItem
+                  key={product.id}
+                  count={i.count}
+                  {...product}
+                />
+              </>
             );
           })
         )}
+        {items.length === 0 && (
+          <>
+            <hr className={styles['hr']} />
+            <div className={styles['empty-basket-message']}>Корзина пуста</div>
+          </>
+        )}
+        <hr className={styles['hr']} />
+        <div className={styles['line']}>
+          <div className={styles['text']}>Сумма заказа: </div>
+          <div className={styles['price']}>
+            {total} <span>₸</span>
+          </div>
+        </div>
+        <hr className={styles['hr']} />
+      </div>
+      <div className={styles['order']}>
+        <Button
+          appearence='big'
+          onClick={checkout}
+        >
+          Оформить заказ
+        </Button>
       </div>
     </>
   );

@@ -1,0 +1,16 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.content img {
+  width: 300px;
+  height: 220px;
+  border-radius: 10%;
+}

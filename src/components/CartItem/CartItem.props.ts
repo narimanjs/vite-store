@@ -1,4 +1,4 @@
-export interface CardItemProps {
+export interface CartItemProps {
   id: number;
   name: string;
   author?: string;

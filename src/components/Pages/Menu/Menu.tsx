@@ -6,7 +6,7 @@ import styles from './Menu.module.css';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../../helpers/API';
 import { MenuList } from './MenuList/MenuList';
-import RingLoader from 'react-spinners/RingLoader';
+import { ThreeDots } from 'react-loader-spinner';
 
 function Menu() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -56,9 +56,13 @@ function Menu() {
           )}
           {isLoading && (
             <>
-              <RingLoader
+              <ThreeDots
                 color='hsla(37, 90%, 50%, 1)'
-                className={styles['preloader']}
+                visible={true}
+                height='50'
+                width='50'
+                radius='9'
+                ariaLabel='three-dots-loading'
               />
             </>
           )}
