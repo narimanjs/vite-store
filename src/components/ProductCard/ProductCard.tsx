@@ -15,7 +15,6 @@ function ProductCard(props: ProductCardProps) {
 
   const add = (e: MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     dispatch(cartActions.add(props.id));
   };
   return (

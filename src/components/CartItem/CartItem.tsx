@@ -9,11 +9,14 @@ import { CartItemProps } from './CartItem.props';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { cartActions } from '../../redux/slices/cart.slice';
+import { NavLink } from 'react-router-dom';
 
 function CartItem(props: CartItemProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const increase = () => {
+    console.log('cart increase', props.id);
+
     dispatch(cartActions.add(props.id));
   };
 
@@ -26,10 +29,15 @@ function CartItem(props: CartItemProps) {
   };
   return (
     <div className={styles['item']}>
-      <div
-        className={styles['image']}
-        style={{ backgroundImage: `url('${props.image}')` }}
-      ></div>
+      <NavLink
+        to={`/product/${props.id}`}
+        className={styles['link']}
+      >
+        <div
+          className={styles['image']}
+          style={{ backgroundImage: `url('${props.image}')` }}
+        ></div>
+      </NavLink>
       <div className={styles['description']}>
         <div className={styles['name']}>{props.name}</div>
         <div className={styles['price']}>

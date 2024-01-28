@@ -19,7 +19,9 @@ import { store } from './redux/store.ts';
 import { Success } from './components/Pages/Succes/Success.tsx';
 
 const Menu = lazy(() => import('./components/Pages/Menu/Menu.tsx'));
-const Product = lazy(() => import('./components/Pages/Product/Product.tsx'));
+const ProductItem = lazy(
+  () => import('./components/Pages/Product/Product.tsx')
+);
 const router = createBrowserRouter([
   {
     path: '/',
@@ -46,7 +48,7 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<>Loading.!..!</>}>
             {' '}
-            <Product />
+            <ProductItem />
           </Suspense>
         ),
         errorElement: <>Ошибка</>,

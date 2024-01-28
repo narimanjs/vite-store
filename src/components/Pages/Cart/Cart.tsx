@@ -12,10 +12,11 @@ import { ThreeDots } from 'react-loader-spinner';
 import Button from '../../Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { cartActions } from '../../../redux/slices/cart.slice';
+import React from 'react';
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Установите изначальное значение в true
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const items = useSelector((s: RootState) => s.cart.items);
   const jwt = useSelector((s: RootState) => s.user.jwt);
   const dispatch = useDispatch<AppDispatch>();
@@ -87,14 +88,14 @@ const Cart = () => {
               return null;
             }
             return (
-              <>
+              <React.Fragment key={product.id}>
                 <hr className={styles['hr']} />
                 <CartItem
                   key={product.id}
                   count={i.count}
                   {...product}
                 />
-              </>
+              </React.Fragment>
             );
           })
         )}
