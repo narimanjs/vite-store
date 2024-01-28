@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { getProfile, userActions } from '../../redux/slices/user.slice';
 import { useEffect } from 'react';
+import { cartActions } from '../../redux/slices/cart.slice';
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -21,6 +22,7 @@ const Layout = () => {
   }, [dispatch]);
 
   const logout = () => {
+    dispatch(cartActions.clean());
     dispatch(userActions.logout());
     navigate('/auth/login');
   };

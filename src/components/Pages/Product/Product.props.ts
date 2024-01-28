@@ -1,10 +1,10 @@
-export interface CartItemProps {
+export interface ProductProps {
   id: number;
   name: string;
   author?: string;
   isFavorite?: boolean;
-  description?: string;
+  description: string;
   image: string;
   price: number;
-  count: number;
+  rating: number;
 }
