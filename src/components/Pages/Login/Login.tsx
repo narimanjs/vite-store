@@ -7,7 +7,7 @@ import Heading from '../../Headling/Heading';
 import Input from '../../Input/Input';
 import styles from './Login.module.css';
 import { FormEvent, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, userActions } from '../../../redux/slices/user.slice';
