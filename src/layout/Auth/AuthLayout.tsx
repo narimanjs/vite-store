@@ -6,7 +6,7 @@ function AuthLayout() {
     <div className={styles['layout']}>
       <div className={styles['logo']}>
         <img
-          src='/logo.svg'
+          src='/pizza.png'
           alt='logo'
         />
       </div>
