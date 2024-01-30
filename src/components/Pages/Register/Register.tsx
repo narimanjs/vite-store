@@ -7,11 +7,10 @@ import Heading from '../../Headling/Heading';
 import Input from '../../Input/Input';
 import styles from './Register.module.css';
 import { FormEvent, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, userActions } from '../../../redux/slices/user.slice';
-import { RootState } from '../../../redux/store';
+import { AppDispatch, RootState } from '../../../redux/store';
 
 export type RegisterForm = {
   email: {
@@ -20,13 +19,15 @@ export type RegisterForm = {
   password: {
     value: string;
   };
-  name?: {
-    value: string;
-  };
+  name?:
+    | {
+        value?: string | undefined;
+      }
+    | undefined;
 };
 export function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch | undefined = useDispatch();
   const { jwt, registerErrorMessage } = useSelector((s: RootState) => s.user);
 
   useEffect(() => {
@@ -35,21 +36,30 @@ export function Register() {
     }
   }, [jwt, navigate]);
 
-  toast.info(registerErrorMessage, {
-    position: 'bottom-center',
-  });
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     dispatch(userActions.clearRegisteError());
     const target = e.target as typeof e.target & RegisterForm;
     const { email, password, name } = target;
-    dispatch(
-      register({
-        email: email.value,
-        password: password.value,
-        name: name.value,
-      })
-    );
+
+    if (
+      email &&
+      email.value &&
+      password &&
+      password.value &&
+      name &&
+      name.value
+    ) {
+      dispatch(
+        register({
+          email: email.value,
+          password: password.value,
+          name: name.value,
+        })
+      );
+    } else {
+      console.error('One or more properties are missing or undefined');
+    }
   };
 
   return (
