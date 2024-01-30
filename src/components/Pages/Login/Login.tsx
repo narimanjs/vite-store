@@ -7,11 +7,10 @@ import Heading from '../../Headling/Heading';
 import Input from '../../Input/Input';
 import styles from './Login.module.css';
 import { FormEvent, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, userActions } from '../../../redux/slices/user.slice';
-import { RootState } from '../../../redux/store';
+import { AppDispatch, RootState } from '../../../redux/store';
 
 export type LoginForm = {
   email: {
@@ -23,7 +22,7 @@ export type LoginForm = {
 };
 export function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user);
 
   useEffect(() => {
@@ -31,10 +30,6 @@ export function Login() {
       navigate('/');
     }
   }, [jwt, navigate]);
-
-  toast.info(loginErrorMessage, {
-    position: 'bottom-center',
-  });
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     dispatch(userActions.clearLoginError());
