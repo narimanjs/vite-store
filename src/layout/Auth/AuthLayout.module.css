@@ -9,7 +9,10 @@
   align-items: center;
   justify-content: center;
 }
-
+.logo img {
+  width: 500px;
+  height: 500px;
+}
 .content {
   flex: 1;
   border-left: 1px solid var(--separator-color);

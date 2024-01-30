@@ -36,6 +36,7 @@ function Menu() {
     }
   };
   const updateFilter = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setFilter(e.target.value);
   };
 

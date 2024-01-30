@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable comma-dangle */
-/* eslint-disable indent */
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../Button/Button';
 import Heading from '../../Headling/Heading';
@@ -27,7 +24,7 @@ export type RegisterForm = {
 };
 export function Register() {
   const navigate = useNavigate();
-  const dispatch: AppDispatch | undefined = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { jwt, registerErrorMessage } = useSelector((s: RootState) => s.user);
 
   useEffect(() => {
